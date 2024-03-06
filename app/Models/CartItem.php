@@ -11,6 +11,8 @@ class CartItem extends Model
 {
     use HasFactory;
 
+    protected $table='cart_items';
+
     protected $fillable=[
         'customer_id',
         'equipment_id',
@@ -25,7 +27,7 @@ class CartItem extends Model
      */
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Customer::class);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSpareRequest;
 use App\Http\Resources\SpareResource;
 use App\Models\Spare;
 use App\Traits\HttpResponses;
@@ -21,10 +22,11 @@ class SpareController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSpareRequest $request)
     {
         $request->validated($request->all());
         $spare=Spare::create($request->all());
+        return new SpareResource($spare);
     }
 
     /**

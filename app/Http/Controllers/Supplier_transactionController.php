@@ -37,16 +37,18 @@ class Supplier_transactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SupplierTransaction $transaction)
+    public function show(string $id)
     {
+        $transaction=SupplierTransaction::find($id);
         return new Supplier_transactionResource($transaction);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SupplierTransaction $transaction)
+    public function update(Request $request, string $id)
     {
+        $transaction=SupplierTransaction::find($id);
         $transaction->update($request->all());
         return new Supplier_transactionResource($transaction);
     }
@@ -54,8 +56,9 @@ class Supplier_transactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SupplierTransaction $transaction)
+    public function destroy(string $id)
     {
+        $transaction=SupplierTransaction::find($id);
         $transaction->delete();
         return $this->success('','transaction deleted successfully');
     }

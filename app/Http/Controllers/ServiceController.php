@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SpareResource;
-use App\Models\Spare;
+use App\Http\Requests\StoreServiceRequest;
+use App\Http\Resources\ServiceResource;
+use App\Models\Service;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
@@ -15,42 +16,42 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return SpareResource::collection(Spare::all());
+        return ServiceResource::collection(Service::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreServiceRequest $request)
     {
         $request->validated($request->all());
-        Spare::create($request->all());
-        return new SpareResource($request);
+        $service=Service::create($request->all());
+        return new ServiceResource($service);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Spare $spare)
+    public function show(Service $service)
     {
-        return new SpareResource($spare);
+        return new ServiceResource($service);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Spare $spare)
+    public function update(Request $request, Service $service)
     {
-        $spare->update($request->all());
-        return new SpareResource($spare);
+        $service->update($request->all());
+        return new ServiceResource($service);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Spare $spare)
+    public function destroy(Service $service)
     {
-        $spare->delete();
-        return $this->success('','spare deleted successfully');
+        $service->delete();
+        return $this->success('','service deleted successfully');
     }
 }

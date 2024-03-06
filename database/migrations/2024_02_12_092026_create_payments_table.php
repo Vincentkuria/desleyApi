@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->uuid('Payment_code');
-            $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->float('amount',8,2);
             $table->json('status')->default(json_encode(['finance'=>'pending']));
             $table->timestamps();

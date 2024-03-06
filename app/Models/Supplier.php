@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Laravel\Sanctum\HasApiTokens;
 
 class Supplier extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     protected $casts=[
         'status'=>'array'

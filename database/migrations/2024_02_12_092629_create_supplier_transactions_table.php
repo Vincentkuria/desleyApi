@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('inventory_id');
             $table->unsignedBigInteger('supplier_id');
             $table->integer('count');
-            $table->float('toatal_amount',8,2)->nullable();
+            $table->float('total_amount',8,2)->nullable();
             $table->unsignedBigInteger('payment_id')->nullable();
             $table->json('status')->default(json_encode(['manager'=>'pending']));
             $table->timestamps();

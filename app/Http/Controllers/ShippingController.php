@@ -36,16 +36,18 @@ class ShippingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Shipping $shipment)
+    public function show(string $id)
     {
+        $shipment=Shipping::find($id);
         return new ShippingResource($shipment);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipping $shipment)
+    public function update(Request $request, string $id)
     {
+        $shipment=Shipping::find($id);
         $shipment->update($request->all());
         return new ShippingResource($shipment);
     }
@@ -53,8 +55,9 @@ class ShippingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shipping $shipment)
+    public function destroy(string $id)
     {
+        $shipment=Shipping::find($id);
         $shipment->delete();
         return $this->success('','shipment successfully deleted');
     }

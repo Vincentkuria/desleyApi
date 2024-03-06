@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Customer_transactionResource;
+use App\Http\Resources\CustomerTransactionResource;
 use App\Models\CustomerTransaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 
-class Customer_transactionController extends Controller
+class CustomerTransactionController extends Controller
 {
     use HttpResponses;
 
@@ -16,7 +16,7 @@ class Customer_transactionController extends Controller
      */
     public function index()
     {
-        return Customer_transactionResource::collection(CustomerTransaction::all());
+        return CustomerTransactionResource::collection(CustomerTransaction::all());
     }
 
     /**
@@ -29,31 +29,34 @@ class Customer_transactionController extends Controller
             'payment_id'=>'required',
         ]);
         $transaction=CustomerTransaction::create($request->all());
-        return new Customer_transactionResource($transaction);
+        return new CustomerTransactionResource($transaction);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CustomerTransaction $transaction)
+    public function show(string $id)
     {
-        return new Customer_transactionResource($transaction);
+        $transaction=CustomerTransaction::find($id);
+        return new CustomerTransactionResource($transaction);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CustomerTransaction $transaction)
+    public function update(Request $request, string $id)
     {
+        $transaction=CustomerTransaction::find($id);
         $transaction->update($request->all());
-        return new Customer_transactionResource($transaction);
+        return new CustomerTransactionResource($transaction);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CustomerTransaction $transaction)
+    public function destroy(string $id)
     {
+        $transaction=CustomerTransaction::find($id);
         $transaction->delete();
         return $this->success('','transaction deleted successfully');
     }

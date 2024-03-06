@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartitemController;
-use App\Http\Controllers\Customer_transactionController;
+use App\Http\Controllers\CustomerTransactionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EquipmentController;
@@ -21,7 +21,8 @@ Route::post('/elogin',[AuthController::class,'elogin']);
 Route::post('/slogin',[AuthController::class,'slogin']);
 Route::post('/register',[CustomerController::class,'store']);
 
-Route::post('/logout',[AuthController::class,'logout']);
+Route::group(['middleware'=>['auth:sanctum']],function () {
+    Route::post('/logout',[AuthController::class,'logout']);
     Route::post('/elogout',[AuthController::class,'elogout']);
     Route::post('/slogout',[AuthController::class,'slogout']);
     Route::resource('/customers',CustomerController::class);
@@ -35,22 +36,5 @@ Route::post('/logout',[AuthController::class,'logout']);
     Route::resource('/cartitems',CartitemController::class);
     Route::resource('/shippings',ShippingController::class);
     Route::resource('/suptransactions',Supplier_transactionController::class);
-    Route::resource('/custransactions',Customer_transactionController::class);
-
-// Route::group(['middleware'=>['auth:sanctum']],function () {
-//     Route::post('/logout',[AuthController::class,'logout']);
-//     Route::post('/elogout',[AuthController::class,'elogout']);
-//     Route::post('/slogout',[AuthController::class,'slogout']);
-//     Route::resource('/customers',CustomerController::class);
-//     Route::resource('/employees',EmployeeController::class);
-//     Route::resource('/equipments',EquipmentController::class);
-//     Route::resource('/spares',SpareController::class);
-//     Route::resource('/services',ServiceController::class);
-//     Route::resource('/payments',PaymentController::class);
-//     Route::resource('/inventories',InventoryController::class);
-//     Route::resource('/suppliers',SupplierController::class);
-//     Route::resource('/cartitems',CartitemController::class);
-//     Route::resource('/shippings',ShippingController::class);
-//     Route::resource('/suptransactions',Supplier_transactionController::class);
-//     Route::resource('/custransactions',Customer_transactionController::class);
-// });
+    Route::resource('/custransactions',CustomerTransactionController::class);
+});

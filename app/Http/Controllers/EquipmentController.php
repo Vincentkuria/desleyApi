@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
 use App\Traits\HttpResponses;
@@ -21,7 +22,7 @@ class EquipmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEquipmentRequest $request)
     {
         $request->validated($request->all());
         $equipment=Equipment::create([
@@ -51,7 +52,7 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, Equipment $equipment)
     {
-        $equipment->update([$request->all()]);
+        $equipment->update($request->all());
         return new EquipmentResource($equipment);
     }
 

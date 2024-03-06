@@ -37,6 +37,7 @@ class SupplierController extends Controller
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
         ]);
+        return new SupplierResource($supplier);
     }
 
     /**
@@ -53,7 +54,7 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         $supplier->update($request->all());
-        return $supplier;
+        return new SupplierResource($supplier);
     }
 
     /**
@@ -61,6 +62,7 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
+        $supplier->delete();
         return $this->success('','supplier deleted successfully');
     }
 }
