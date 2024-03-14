@@ -23,7 +23,13 @@ class CartitemController extends Controller
      */
     public function store(Request $request)
     {
-        $cartitem=CartItem::create($request->all());
+        $cartitem=CartItem::create([
+            'customer_id'=>$request->user()->id,
+            'equipment_id'=>$request->equipment_id,
+            'service_id'=>$request->service_id,
+            'spare_id'=>$request->spare_id,
+            'count'=>$request->count,
+        ]);
         return new CartitemResource($cartitem);
     }
 
