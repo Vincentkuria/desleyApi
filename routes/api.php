@@ -25,6 +25,9 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::post('/logout',[AuthController::class,'logout']);
     Route::post('/elogout',[AuthController::class,'elogout']);
     Route::post('/slogout',[AuthController::class,'slogout']);
+    Route::get('/user',[AuthController::class,'user']);
+    Route::get('/euser',[AuthController::class,'euser']);
+    Route::get('/suser',[AuthController::class,'suser']);
     Route::resource('/customers',CustomerController::class);
     Route::resource('/employees',EmployeeController::class);
     Route::resource('/equipments',EquipmentController::class);

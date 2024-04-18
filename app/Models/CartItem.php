@@ -17,6 +17,7 @@ class CartItem extends Model
         'customer_id',
         'equipment_id',
         'service_id',
+        'spare_id',
         'count',
     ];
 

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginCustomerRequest;
 use App\Http\Requests\LoginEmployeeRequest;
 use App\Http\Requests\LoginSupplierRequest;
+use App\Http\Resources\CustomerResource;
+use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\SupplierResource;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Supplier;
@@ -37,6 +40,10 @@ class AuthController extends Controller
         return $this->success('','you have been logedout successfully');
     }
 
+    public function user(Request $request) {
+        return new CustomerResource($request->user());
+    }
+
 
     //Employees Auth >>>>
 
@@ -59,6 +66,11 @@ class AuthController extends Controller
         return $this->success('','you have been logedout successfully');
     }
 
+    public function euser(Request $request) {
+        return new EmployeeResource($request->user());
+    }
+
+
 
     //Supplier Auth >>>>
 
@@ -80,5 +92,10 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return $this->success('','you have been successfully logedout');
     }
+
+    public function suser(Request $request) {
+        return new SupplierResource($request->user());
+    }
+
 
 }
