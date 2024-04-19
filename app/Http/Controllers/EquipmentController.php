@@ -64,4 +64,11 @@ class EquipmentController extends Controller
         $equipment->delete();
         return $this->success('','Equipment deleted successfully');
     }
+
+    public function search(Request $request) {
+        if (request('search')) {
+            return EquipmentResource::collection(Equipment::where('name','like','%'.request('search').'%')->get());
+        }  
+        
+    }
 }

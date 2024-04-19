@@ -28,6 +28,9 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/user',[AuthController::class,'user']);
     Route::get('/euser',[AuthController::class,'euser']);
     Route::get('/suser',[AuthController::class,'suser']);
+    Route::get('/equipment-search',[EquipmentController::class,'search']);
+    Route::get('/spare-search',[SpareController::class,'search']);
+    Route::get('/service-search',[ServiceController::class,'search']);
     Route::resource('/customers',CustomerController::class);
     Route::resource('/employees',EmployeeController::class);
     Route::resource('/equipments',EquipmentController::class);

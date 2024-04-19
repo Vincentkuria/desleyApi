@@ -54,4 +54,11 @@ class ServiceController extends Controller
         $service->delete();
         return $this->success('','service deleted successfully');
     }
+
+    public function search(Request $request) {
+        if (request('search')) {
+            return ServiceResource::collection(Service::where('name','like','%'.request('search').'%')->get());
+        }  
+        
+    }
 }

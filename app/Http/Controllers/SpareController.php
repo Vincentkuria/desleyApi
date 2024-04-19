@@ -54,4 +54,11 @@ class SpareController extends Controller
         $spare->delete();
         return $this->success('','spare deleted successfully');
     }
+
+    public function search(Request $request) {
+        if (request('search')) {
+            return SpareResource::collection(Spare::where('name','like','%'.request('search').'%')->get());
+        }  
+        
+    }
 }
