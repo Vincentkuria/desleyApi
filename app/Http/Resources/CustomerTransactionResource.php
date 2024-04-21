@@ -21,6 +21,7 @@ class CustomerTransactionResource extends JsonResource
             'equipment_id'=>$this->equipment_id,
             'spare_id'=>$this->spare_id,
             'service_id'=>$this->service_id,
+            'count'=>$this->count,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
         ];

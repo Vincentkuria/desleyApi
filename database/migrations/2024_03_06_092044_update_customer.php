@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    // TODO remember to delete this and all migration that are not batch 1 (on migrate:status)
     public function up(): void
     {
         Schema::table('customers', function (Blueprint $table) {

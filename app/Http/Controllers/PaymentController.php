@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
+use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\Supplier;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -24,11 +28,16 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'payment_code'=>'required|string',
             'amount'=>'required',
         ]);
-
-        $payment=Payment::create($request->all());
+        $data= $request->all();
+        $data['payment_code']=Str::uuid();
+        if ($request->user() instanceof Customer) {
+            $data['customer_id']=$request->user()->id;
+        }elseif ($request->user() instanceof Supplier) {
+            $data['supplier_id']=$request->user()->id;
+        }
+        $payment=Payment::create($data);
         return new PaymentResource($payment);
     }
 

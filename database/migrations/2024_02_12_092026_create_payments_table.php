@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('Payment_code');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
-            $table->float('amount',8,2);
+            $table->float('amount',10,2);
             $table->json('status')->default(json_encode(['finance'=>'pending']));
             $table->timestamps();
         });

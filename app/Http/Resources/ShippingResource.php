@@ -20,6 +20,7 @@ class ShippingResource extends JsonResource
             'shipping_address'=>$this->shipping_address,
             'equipment_id'=>$this->equipment_id,
             'spare_id'=>$this->spare_id,
+            'service_id'=>$this->service_id,
             'shipped_by'=>$this->shipped_by,
             'status'=>$this->status,
             'created_at'=>$this->created_at,

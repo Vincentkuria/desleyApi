@@ -25,10 +25,11 @@ class CustomerTransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_id'=>'required',
             'payment_id'=>'required',
         ]);
-        $transaction=CustomerTransaction::create($request->all());
+        $data=$request->all();
+        $data['customer_id']=$request->user()->id;
+        $transaction=CustomerTransaction::create($data);
         return new CustomerTransactionResource($transaction);
     }
 
