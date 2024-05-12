@@ -57,7 +57,8 @@ class AuthController extends Controller
         $employee=Employee::where('email',$request->email)->first();
         return $this->success([
             'employee'=>$employee,
-            'token'=>$employee->createToken('Api token for'.$employee->first_name)->plainTextToken
+            'token'=>$employee->createToken('Api token for'.$employee->first_name)->plainTextToken,
+            'role'=>$employee->role
         ],'employee logedin successfully');
     }
 

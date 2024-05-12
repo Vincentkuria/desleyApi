@@ -37,6 +37,13 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::resource('/spares',SpareController::class);
     Route::resource('/services',ServiceController::class);
     Route::resource('/payments',PaymentController::class);
+    Route::get('/payments-total',[PaymentController::class,'total']);
+    Route::get('/payments-d-monthly',[PaymentController::class,'monthlyDeductions']);
+    Route::get('/payments-i-monthly',[PaymentController::class,'monthlyIncome']);
+    Route::get('/payments-approved',[PaymentController::class,'approvedPayments']);
+    Route::get('/payments-pending',[PaymentController::class,'pendingPayments']);
+    Route::get('/payments-search',[PaymentController::class,'searchWithName']);
+    Route::post('/approve-payment',[PaymentController::class,'approvePayment']);
     Route::resource('/inventories',InventoryController::class);
     Route::resource('/suppliers',SupplierController::class);
     Route::resource('/cartitems',CartitemController::class);

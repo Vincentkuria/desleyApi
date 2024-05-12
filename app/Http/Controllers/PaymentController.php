@@ -7,7 +7,9 @@ use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Supplier;
 use App\Traits\HttpResponses;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -66,4 +68,38 @@ class PaymentController extends Controller
         $payment->delete();
         return $this->success('','Payment deleted successfully');
     }
+
+    function total() {
+        return Payment::all()->sum('amount');
+    }
+
+    function monthlyDeductions(){
+        return Payment::where('amount','<',0)->whereBetween('created_at',[Carbon::now()->subDays(30),Carbon::now()])->sum('amount');
+    }
+
+    function monthlyIncome(){
+        return Payment::where('amount','>',0)->whereBetween('created_at',[Carbon::now()->subDays(30),Carbon::now()])->sum('amount');
+    }
+
+    function approvedPayments(){
+        return PaymentResource::collection(Payment::where('status->finance','approved')->get()); 
+    
+    }
+
+    function pendingPayments() {
+        return PaymentResource::collection(Payment::where('status->finance','pending')->get()); 
+    }
+
+    function searchWithName() {
+        $payments =Payment::whereHas('customer', function ($query) {
+        $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%'.request('search').'%']);
+        })->get();
+        return PaymentResource::collection($payments);
+    }
+
+    function approvePayment(Request $request) {
+        DB::table('payments')->where('id',$request->id)->update(['status->finance'=>'approved']);
+        return $this->success('','payment approved');
+    }
+
 }
