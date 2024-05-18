@@ -17,6 +17,7 @@ class CustomerTransaction extends Model
         'equipment_id',
         'spare_id',
         'service_id',
-        'count'
+        'count',
+        'shipping_address'
     ];
 }

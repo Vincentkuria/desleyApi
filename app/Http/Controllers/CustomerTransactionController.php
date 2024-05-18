@@ -26,6 +26,7 @@ class CustomerTransactionController extends Controller
     {
         $request->validate([
             'payment_id'=>'required',
+            'shipping_address'=>'required'
         ]);
         $data=$request->all();
         $data['customer_id']=$request->user()->id;

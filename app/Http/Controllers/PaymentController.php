@@ -83,6 +83,8 @@ class PaymentController extends Controller
 
     function approvedPayments(){
         return PaymentResource::collection(Payment::where('status->finance','approved')->get()); 
+        //Todo create a new entry in the shippings from customer transactions using transactions with the same approved payment id
+        //rmember to check the type of user customer/supplier
     
     }
 
