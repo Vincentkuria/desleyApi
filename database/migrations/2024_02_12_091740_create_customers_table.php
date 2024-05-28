@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone_no');
+            $table->string('verify_code')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

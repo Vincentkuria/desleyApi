@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('spare_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->integer('count')->default(1);
+            $table->string('shipping_address');
             $table->timestamps();
         });
     }
