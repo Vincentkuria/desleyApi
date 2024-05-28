@@ -8,12 +8,14 @@ use App\Http\Requests\LoginSupplierRequest;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\SupplierResource;
+use App\Mail\verify;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Supplier;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -99,4 +101,45 @@ class AuthController extends Controller
     }
 
 
+    //send verification emailcode
+
+    public function sendCode(Request $request){
+
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+
+        // Generate the random string
+        for ($i = 0; $i < 5; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+       Customer::find($request->user()->id)->update(['verify_code'=>$randomString]);
+        
+        Mail::to($request->user()->email)->send(new verify($randomString,$request->user()->first_name));
+        return $this->success('','email sent successfully');
+    }
+
+    public function checkVerifyStatus(Request $request){
+        if ($request->user()->verify_code=='true') {
+            return $this->success(['status'=>true],'user is verified');
+        }else {
+            return $this->success(['status'=>false],'user is not verified');
+        }
+    }
+
+    public function verify(Request $request){
+        $request->validate([
+            'code'=>'required'
+        ]);
+
+        $code = $request->user()->verify_code;
+        if ($code===$request->code) {
+            Customer::find($request->user()->id)->update(['verify_code'=>'true']);
+        }else {
+            return $this->error(['code'=>'$request->code'],'wrong code',417);
+        }
+
+        return $this->success('','email verified successfully');
+    }
 }
