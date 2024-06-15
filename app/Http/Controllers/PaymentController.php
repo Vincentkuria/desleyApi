@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
 use App\Models\Customer;
+use App\Models\CustomerTransaction;
 use App\Models\Payment;
+use App\Models\Shipping;
 use App\Models\Supplier;
 use App\Traits\HttpResponses;
 use Carbon\Carbon;
@@ -101,6 +103,18 @@ class PaymentController extends Controller
 
     function approvePayment(Request $request) {
         DB::table('payments')->where('id',$request->id)->update(['status->finance'=>'approved']);
+        $customerTransGroup=CustomerTransaction::where('payment_id',$request->id)->get();// not only one
+        foreach ($customerTransGroup as $customerTrans) {
+            Shipping::create([
+            'customer_id'=>$customerTrans->customer_id,
+            'shipping_address'=>$customerTrans->shipping_address,
+            'equipment_id'=>$customerTrans->equipment_id,
+            'spare_id'=>$customerTrans->spare_id,
+            'service_id'=>$customerTrans->service_id,
+            'count'=>$customerTrans->count,
+        ]);
+        } 
+        
         return $this->success('','payment approved');
     }
 

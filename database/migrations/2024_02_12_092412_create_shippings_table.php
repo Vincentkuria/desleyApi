@@ -19,7 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('spare_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('shipped_by')->nullable();
-            $table->json('status')->default(json_encode(['supervisor'=>'pending', 'shipping_status'=>'pending']));
+            $table->integer('count');
+            $table->json('status')->default(json_encode(['shipping_status'=>'pending']));
             $table->timestamps();
         });
     }

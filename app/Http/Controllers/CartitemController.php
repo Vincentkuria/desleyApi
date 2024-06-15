@@ -6,17 +6,17 @@ use App\Http\Resources\CartitemResource;
 use App\Models\CartItem;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class CartController extends Controller
+class CartitemController extends Controller
 {
+
     use HttpResponses;
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        return CartitemResource::collection(CartItem::where('customer_id',$request->user()->id)->get());
+        return CartitemResource::collection(CartItem::all());
     }
 
     /**
@@ -24,7 +24,6 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        
         if ($request->equipment_id!=null) {
             $cartitem=CartItem::where('customer_id',$request->user()->id)
                                 ->where('equipment_id',$request->equipment_id)->first();
@@ -42,9 +41,7 @@ class CartController extends Controller
         }else if ($request->service_id!=null) {
             $cartitem=CartItem::where('customer_id',$request->user()->id)
                                 ->where('service_id',$request->service_id)->first();
-                                Log::error($cartitem);
             if ($cartitem==null) {
-                Log::error($cartitem==null);
                 $cartitem=CartItem::create([
                     'customer_id'=>$request->user()->id,
                     'equipment_id'=>$request->equipment_id,
@@ -77,43 +74,33 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(String $id)
     {
-        $cartitem=CartItem::find($request->id);
-        if ($cartitem!=null) {
-            return new CartitemResource($cartitem);
-        }else {
-            return null;
-        }
-        
+      $cartItem=CartItem::find($id) ;
+      return new CartitemResource($cartItem);
     }
 
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, String $id)
     {
-        $cartitem=CartItem::find($request->id);
-        if ($cartitem==null) {
-            return null;
-        }
-        $alldata=$request->all();
-        unset($alldata['id']);
-        $cartitem->update($alldata);
-        return new CartitemResource($cartitem);
+        $cartItem=CartItem::find($id);
+        $cartItem->update($request->all());
+        return new CartitemResource($cartItem);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(String $id)
     {
-        $cartitem=CartItem::find($request->id);
-        if($cartitem!=null){
-            $cartitem->delete();
-            return $this->success('','cartitem deleted successfully');
-        }
-        return null;
+       
+        CartItem::destroy($id);
+        return $this->success('','cartitem deleted successfully');
+        
         
     }
 }

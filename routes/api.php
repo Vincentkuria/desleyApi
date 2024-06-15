@@ -26,9 +26,9 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::post('/logout',[AuthController::class,'logout']);
     Route::post('/elogout',[AuthController::class,'elogout']);
     Route::post('/slogout',[AuthController::class,'slogout']);
-    Route::post('/send-verification-code',[AuthController::class,'sendCode']);
-    Route::post('/verify',[AuthController::class,'verify']);
-    Route::post('/check-verify-status',[AuthController::class,'checkVerifyStatus']);
+    // Route::post('/send-verification-code',[AuthController::class,'sendCode']);
+    // Route::post('/verify',[AuthController::class,'verify']);
+    // Route::post('/check-verify-status',[AuthController::class,'checkVerifyStatus']);
     Route::get('/user',[AuthController::class,'user']);
     Route::get('/euser',[AuthController::class,'euser']);
     Route::get('/suser',[AuthController::class,'suser']);
@@ -37,6 +37,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/service-search',[ServiceController::class,'search']);
     Route::resource('/customers',CustomerController::class);
     Route::resource('/employees',EmployeeController::class);
+    Route::get('/search-employees',[EmployeeController::class,'searchEmployees']);
     Route::resource('/equipments',EquipmentController::class);
     Route::resource('/spares',SpareController::class);
     Route::resource('/services',ServiceController::class);
@@ -50,13 +51,11 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::post('/approve-payment',[PaymentController::class,'approvePayment']);
     Route::resource('/inventories',InventoryController::class);
     Route::resource('/suppliers',SupplierController::class);
-    Route::get('/cart/index',[CartController::class,'index']);
-    Route::post('/cart/store',[CartController::class,'store']);
-    Route::get('/cart/show',[CartController::class,'show']);
-    Route::patch('/cart/update',[CartController::class,'update']);
-    Route::put('/cart/update',[CartController::class,'update']);
-    Route::delete('/cart/destroy',[CartController::class,'destroy']);
+    Route::resource('/cartitems',CartitemController::class);
     Route::resource('/shippings',ShippingController::class);
+    Route::get('/driver-items',[ShippingController::class,'driverItems']);
+    Route::get('/search-shippings',[ShippingController::class,'searchShippings']);
+    Route::post('/update-shipping-status',[ShippingController::class,'updateStatus']);
     Route::resource('/suptransactions',Supplier_transactionController::class);
     Route::resource('/custransactions',CustomerTransactionController::class);
 });

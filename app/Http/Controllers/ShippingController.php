@@ -6,6 +6,8 @@ use App\Http\Resources\ShippingResource;
 use App\Models\Shipping;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ShippingController extends Controller
 {
@@ -60,5 +62,33 @@ class ShippingController extends Controller
         $shipment=Shipping::find($id);
         $shipment->delete();
         return $this->success('','shipment successfully deleted');
+    }
+
+    public function updateStatus(Request $request){
+        Log::debug(request('status'));
+        if (request('status')=='in transit') {
+            DB::table('shippings')->where('id',request('id'))->update(['status->shipping_status'=>'in transit']);
+        }
+        if (request('status')=='delivered') {
+            DB::table('shippings')->where('id',request('id'))->update(['status->shipping_status'=>'delivered']);
+        }
+        
+    }
+
+    public function searchShippings(){
+        $column =request('column');
+        $columnQuery=request('columnQuery');
+
+        if ($column!=null){
+            if ($columnQuery==null) {
+                Log::debug(Shipping::whereNull($column)->get());
+                return ShippingResource::collection(Shipping::whereNull($column)->get());
+            }
+           return ShippingResource::collection(Shipping::where($column,$columnQuery)->get()); 
+        }
+    }
+
+    public function driverItems(Request $request){
+        return ShippingResource::collection(DB::table('shippings')->where('shipped_by',$request->user()->id)->where('status->shipping_status','in transit')->get());
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone_no');
-            $table->string('verify_code')->nullable();
+            $table->boolean('verified')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

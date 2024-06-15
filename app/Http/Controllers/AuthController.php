@@ -103,43 +103,43 @@ class AuthController extends Controller
 
     //send verification emailcode
 
-    public function sendCode(Request $request){
+    // public function sendCode(Request $request){
 
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
+    //     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    //     $charactersLength = strlen($characters);
+    //     $randomString = '';
 
-        // Generate the random string
-        for ($i = 0; $i < 5; $i++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        }
+    //     // Generate the random string
+    //     for ($i = 0; $i < 5; $i++) {
+    //         $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    //     }
 
-       Customer::find($request->user()->id)->update(['verify_code'=>$randomString]);
+    //    Customer::find($request->user()->id)->update(['verify_code'=>$randomString]);
         
-        Mail::to($request->user()->email)->send(new verify($randomString,$request->user()->first_name));
-        return $this->success('','email sent successfully');
-    }
+    //     Mail::to($request->user()->email)->send(new verify($randomString,$request->user()->first_name));
+    //     return $this->success('','email sent successfully');
+    // }
 
-    public function checkVerifyStatus(Request $request){
-        if ($request->user()->verify_code=='true') {
-            return $this->success(['status'=>true],'user is verified');
-        }else {
-            return $this->success(['status'=>false],'user is not verified');
-        }
-    }
+    // public function checkVerifyStatus(Request $request){
+    //     if ($request->user()->verify_code=='true') {
+    //         return $this->success(['status'=>true],'user is verified');
+    //     }else {
+    //         return $this->success(['status'=>false],'user is not verified');
+    //     }
+    // }
 
-    public function verify(Request $request){
-        $request->validate([
-            'code'=>'required'
-        ]);
+    // public function verify(Request $request){
+    //     $request->validate([
+    //         'code'=>'required'
+    //     ]);
 
-        $code = $request->user()->verify_code;
-        if ($code===$request->code) {
-            Customer::find($request->user()->id)->update(['verify_code'=>'true']);
-        }else {
-            return $this->error(['code'=>'$request->code'],'wrong code',417);
-        }
+    //     $code = $request->user()->verify_code;
+    //     if ($code===$request->code) {
+    //         Customer::find($request->user()->id)->update(['verify_code'=>'true']);
+    //     }else {
+    //         return $this->error(['code'=>'$request->code'],'wrong code',417);
+    //     }
 
-        return $this->success('','email verified successfully');
-    }
+    //     return $this->success('','email verified successfully');
+    // }
 }
