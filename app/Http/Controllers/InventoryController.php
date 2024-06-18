@@ -6,6 +6,7 @@ use App\Http\Resources\InventoryResource;
 use App\Models\Inventory;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
@@ -56,5 +57,15 @@ class InventoryController extends Controller
     {
         $inventory->delete();
         return $this->success('','Inventory deleted successfully');
+    }
+
+    public function statusRequestDelete() {
+        DB::table('inventories')->where('id',request('deleteid'))->update(['status->manager'=>'delete']);
+        return $this->success('','deleted sucessfully');
+    }
+
+    public function indexUndeleted()
+    {
+        return InventoryResource::collection(DB::table('inventories')->whereNot('status->manager','delete')->get());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +19,7 @@ class InventoryResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'no_of_items'=>$this->no_of_items,
-            'supplier_id'=>$this->supplier_id,
+            'supplier'=>Supplier::find($this->supplier_id),
             'status'=>$this->status,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,

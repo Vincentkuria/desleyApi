@@ -50,6 +50,8 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/payments-search',[PaymentController::class,'searchWithName']);
     Route::post('/approve-payment',[PaymentController::class,'approvePayment']);
     Route::resource('/inventories',InventoryController::class);
+    Route::post('/status-request-delete',[InventoryController::class,'statusRequestDelete']);
+    Route::get('/inventories-undeleted',[InventoryController::class,'indexUndeleted']);
     Route::resource('/suppliers',SupplierController::class);
     Route::resource('/cartitems',CartitemController::class);
     Route::resource('/shippings',ShippingController::class);
@@ -57,5 +59,6 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/search-shippings',[ShippingController::class,'searchShippings']);
     Route::post('/update-shipping-status',[ShippingController::class,'updateStatus']);
     Route::resource('/suptransactions',Supplier_transactionController::class);
+    Route::get('/suptransactions-approved',[Supplier_transactionController::class,'indexApproved']);
     Route::resource('/custransactions',CustomerTransactionController::class);
 });

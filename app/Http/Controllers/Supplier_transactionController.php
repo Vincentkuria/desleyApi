@@ -6,6 +6,8 @@ use App\Http\Resources\Supplier_transactionResource;
 use App\Models\SupplierTransaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Supplier_transactionController extends Controller
 {
@@ -24,13 +26,16 @@ class Supplier_transactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'request_from'=>'required',
             'inventory_id'=>'required',
             'supplier_id'=>'required',
             'count'=>'required',
         ]);
 
-        $transaction=SupplierTransaction::create($request->all());
+        $data=$request->all();
+        $data['request_from']=$request->user()->id;
+        
+
+        $transaction=SupplierTransaction::create($data);
         return new Supplier_transactionResource($transaction);
     }
 
@@ -61,5 +66,9 @@ class Supplier_transactionController extends Controller
         $transaction=SupplierTransaction::find($id);
         $transaction->delete();
         return $this->success('','transaction deleted successfully');
+    }
+
+    public function indexApproved(Request $request) {
+        return Supplier_transactionResource::collection(DB::table('supplier_transactions')->where('id',$request->user()->id)->where('status->manager','approved')->get());
     }
 }
