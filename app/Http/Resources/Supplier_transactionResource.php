@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Inventory;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,14 +19,12 @@ class Supplier_transactionResource extends JsonResource
         return [
             'id'=>$this->id,
             'request_from'=>$this->request_from,
-            'inventory_id'=>$this->inventory_id,
-            'supplier_id'=>$this->supplier_id,
+            'inventory'=>Inventory::find($this->inventory_id),
+            'supplier'=>Supplier::find($this->supplier_id),
             'count'=>$this->count,
-            'total_amount'=>$this->total_amount,
-            'payment_id'=>$this->payment_id,
             'status'=>$this->status,
             'created_at'=>$this->created_at,
-            'updated_at'=>$this->updsted_at,
+            'updated_at'=>$this->updated_at,
         ];
     }
 }

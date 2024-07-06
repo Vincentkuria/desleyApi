@@ -64,8 +64,8 @@ class InventoryController extends Controller
         return $this->success('','deleted sucessfully');
     }
 
-    public function indexUndeleted()
+    public function indexApproved()
     {
-        return InventoryResource::collection(DB::table('inventories')->whereNot('status->manager','delete')->get());
+        return InventoryResource::collection(DB::table('inventories')->where('status->manager','approved')->get());
     }
 }

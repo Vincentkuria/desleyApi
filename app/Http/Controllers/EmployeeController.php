@@ -7,6 +7,7 @@ use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
@@ -21,7 +22,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return EmployeeResource::collection(Employee::all());
+        return EmployeeResource::collection(Employee::whereNot('role','admin')->get());
     }
 
    
@@ -59,7 +60,7 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $employee->update($request->all());
-        return new EmployeeResource($employee);
+        return $this->success('','employee updated successfully');
     }
 
     /**
@@ -81,5 +82,21 @@ class EmployeeController extends Controller
         if ($column!=null && $columnQuery!=null){
            return EmployeeResource::collection(Employee::where($column,$columnQuery)->get()); 
         }
+    }
+
+    function searchWithName() {
+        $employee= Employee::whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%'.request('search').'%'])->get();
+        return EmployeeResource::collection($employee);
+    }
+
+    function approveEmployee() {
+        DB::table('employees')->where('id',request('id'))->update(['status->manager'=>'approved']);
+        return $this->success('','employee approved successfully');
+    }
+
+    function updateEmpPassword(){
+        $employee =Employee::find(request('id'));
+        $employee->update(['password'=>Hash::make(request('password'))]);
+        return $this->success('','password updated successfully');
     }
 }

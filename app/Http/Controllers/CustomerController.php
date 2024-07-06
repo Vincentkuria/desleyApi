@@ -60,6 +60,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
+    
         $customer->update($request->all());
         return new CustomerResource($customer);
     }
@@ -71,5 +72,16 @@ class CustomerController extends Controller
     {
         $customer->delete();
         return $this->success('','Customer deleted successfully');
+    }
+
+    function searchWithName() {
+        $customers= Customer::whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%'.request('search').'%'])->get();
+        return CustomerResource::collection($customers);
+    }
+
+    function updateCusPassword(){
+        $customer =Customer::find(request('id'));
+        $customer->update(['password'=>Hash::make(request('password'))]);
+        return $this->success('','password updated successfully');
     }
 }

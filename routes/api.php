@@ -36,8 +36,13 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/spare-search',[SpareController::class,'search']);
     Route::get('/service-search',[ServiceController::class,'search']);
     Route::resource('/customers',CustomerController::class);
+    Route::get('/customers-search',[CustomerController::class,'searchWithName']);
+    Route::post('/update-cus-password',[CustomerController::class,'updateCusPassword']);
     Route::resource('/employees',EmployeeController::class);
     Route::get('/search-employees',[EmployeeController::class,'searchEmployees']);
+    Route::get('/search-employees-name',[EmployeeController::class,'searchWithName']);
+    Route::post('/update-emp-password',[EmployeeController::class,'updateEmpPassword']);
+    Route::post('/approve-employees',[EmployeeController::class,'approveEmployee']);
     Route::resource('/equipments',EquipmentController::class);
     Route::resource('/spares',SpareController::class);
     Route::resource('/services',ServiceController::class);
@@ -51,7 +56,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::post('/approve-payment',[PaymentController::class,'approvePayment']);
     Route::resource('/inventories',InventoryController::class);
     Route::post('/status-request-delete',[InventoryController::class,'statusRequestDelete']);
-    Route::get('/inventories-undeleted',[InventoryController::class,'indexUndeleted']);
+    Route::get('/inventories-approved',[InventoryController::class,'indexApproved']);
     Route::resource('/suppliers',SupplierController::class);
     Route::resource('/cartitems',CartitemController::class);
     Route::resource('/shippings',ShippingController::class);
@@ -59,6 +64,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/search-shippings',[ShippingController::class,'searchShippings']);
     Route::post('/update-shipping-status',[ShippingController::class,'updateStatus']);
     Route::resource('/suptransactions',Supplier_transactionController::class);
+    Route::post('/inventory-delivered',[Supplier_transactionController::class,'inventoryDelivered']);
     Route::get('/suptransactions-approved',[Supplier_transactionController::class,'indexApproved']);
     Route::resource('/custransactions',CustomerTransactionController::class);
 });

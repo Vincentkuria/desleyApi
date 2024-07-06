@@ -22,6 +22,7 @@ class CustomerResource extends JsonResource
             'phone_no'=>$this->phone_no,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
+            'verified'=>$this->verified,
         ];
     }
 }

@@ -7,7 +7,7 @@ use App\Models\SupplierTransaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 class Supplier_transactionController extends Controller
 {
@@ -69,6 +69,15 @@ class Supplier_transactionController extends Controller
     }
 
     public function indexApproved(Request $request) {
-        return Supplier_transactionResource::collection(DB::table('supplier_transactions')->where('id',$request->user()->id)->where('status->manager','approved')->get());
+        return Supplier_transactionResource::collection(DB::table('supplier_transactions')->where('status->manager','approved')->where('supplier_id',$request->user()->id)->get());
+    }
+
+    public function inventoryDelivered() {
+        $inventory=DB::table('inventories')->where('id',request('inventory_id'))->first();
+        $currentCount=$inventory->no_of_items;
+        $newCount=$currentCount + request('no_of_items');
+        DB::table('inventories')->where('id',request('inventory_id'))->update(['no_of_items'=>$newCount]);
+        DB::table('supplier_transactions')->where('id',request('suptransaction_id'))->update(['status->supply'=>'done']);
+        return $this->success('','updated successfuly');
     }
 }
