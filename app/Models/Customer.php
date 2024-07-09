@@ -42,6 +42,11 @@ class Customer extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function shippings(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);

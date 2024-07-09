@@ -6,6 +6,7 @@ use App\Http\Resources\SupplierResource;
 use App\Models\Supplier;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class SupplierController extends Controller
@@ -29,7 +30,7 @@ class SupplierController extends Controller
         $request->validate([
             'company_name'=>'required|string',
             'email'=>'required|string|unique:suppliers',
-            'password'=>'required|string|min:6',
+            'password'=>'required|string|min:8',
         ]);
 
         $supplier=Supplier::create([
@@ -64,5 +65,21 @@ class SupplierController extends Controller
     {
         $supplier->delete();
         return $this->success('','supplier deleted successfully');
+    }
+
+    function approveSupplier() {
+        DB::table('suppliers')->where('id',request('id'))->update(['status->manager'=>'approved']);
+        return $this->success('','employee approved successfully');
+    }
+
+    function updateSupPassword(){
+        $supplier =Supplier::find(request('id'));
+        $supplier->update(['password'=>Hash::make(request('password'))]);
+        return $this->success('','password updated successfully');
+    }
+
+    function searchSupplier() {
+        $suppliers=Supplier::where('company_name','like','%'.request('search').'%')->get();
+        return SupplierResource::collection($suppliers);
     }
 }

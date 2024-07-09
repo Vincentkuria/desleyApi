@@ -25,7 +25,15 @@ class SpareController extends Controller
     public function store(StoreSpareRequest $request)
     {
         $request->validated($request->all());
-        $spare=Spare::create($request->all());
+        $img_url=$request->file('img')->store('public');
+        $spare=Spare::create([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'item_description'=>$request->item_description,
+            'img_url'=>url(str_replace("public","storage",$img_url)),
+            'inventory_id'=>$request->inventory_id,
+        ]);
+
         return new SpareResource($spare);
     }
 
@@ -42,7 +50,13 @@ class SpareController extends Controller
      */
     public function update(Request $request, Spare $spare)
     {
-        $spare->update($request->all());
+        $img_url=$request->file('img')->store('public');
+        $spare->update([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'item_description'=>$request->item_description,
+            'img_url'=>url(str_replace("public","storage",$img_url)),
+        ]);
         return new SpareResource($spare);
     }
 

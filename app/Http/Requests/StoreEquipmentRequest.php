@@ -25,7 +25,7 @@ class StoreEquipmentRequest extends FormRequest
             'name'=>['required','string'],
             'price'=>['required'],
             'item_description'=>['required','string'],
-            'img_url'=>['required','string'],
+            'img'=>['required'],
             'video_url'=>['sometimes','required','string'],
             'inventory_id'=>['required'],
         ];

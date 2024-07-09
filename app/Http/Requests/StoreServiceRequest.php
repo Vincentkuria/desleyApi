@@ -25,7 +25,7 @@ class StoreServiceRequest extends FormRequest
             'name'=>['required','string',],
             'service_description'=>['required','string'],
             'price'=>['required'],
-            'img_url'=>['required','string']
+            'img'=>['required']
         ];
     }
 }

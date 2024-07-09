@@ -20,13 +20,14 @@ class ShippingResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'customer_id'=>$this->customer_id,
+            'customer'=>Customer::find($this->customer_id),
             'shipping_address'=>$this->shipping_address,
             'equipment'=>Equipment::find($this->equipment_id),
             'spare'=>Spare::find($this->spare_id),
             'service'=>Service::find($this->spare_id),
             'shipped_by'=>$this->shipped_by,
             'status'=>$this->status,
+            'count'=>$this->count,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
         ];

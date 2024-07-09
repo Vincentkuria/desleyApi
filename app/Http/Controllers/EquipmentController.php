@@ -7,6 +7,7 @@ use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EquipmentController extends Controller
 {
@@ -25,11 +26,12 @@ class EquipmentController extends Controller
     public function store(StoreEquipmentRequest $request)
     {
         $request->validated($request->all());
+        $img_url=$request->file('img')->store('public');
         $equipment=Equipment::create([
             'name'=>$request->name,
             'price'=>$request->price,
             'item_description'=>$request->item_description,
-            'img_url'=>$request->img_url,
+            'img_url'=>url(str_replace("public","storage",$img_url)),
             'video_url'=>$request->video_url,
             'inventory_id'=>$request->inventory_id,
         ]);
@@ -50,9 +52,15 @@ class EquipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Equipment $equipment)
+    public function update(StoreEquipmentRequest $request, Equipment $equipment)
     {
-        $equipment->update($request->all());
+        $img_url=$request->file('img')->store('public');
+        $equipment->update([
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'item_description'=>$request->item_description,
+            'img_url'=>url(str_replace("public","storage",$img_url)),
+        ]);
         return new EquipmentResource($equipment);
     }
 

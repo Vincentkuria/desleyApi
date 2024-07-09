@@ -25,7 +25,7 @@ class StoreSpareRequest extends FormRequest
             'name'=>['required','string'],
             'price'=>['required','string'],
             'item_description'=>['required','string'],
-            'img_url'=>['required','string'],
+            'img'=>['required'],
             'inventory_id'=>['required'],
         ];
     }

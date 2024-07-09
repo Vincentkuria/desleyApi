@@ -68,4 +68,8 @@ class InventoryController extends Controller
     {
         return InventoryResource::collection(DB::table('inventories')->where('status->manager','approved')->get());
     }
+
+    function search() {
+        return InventoryResource::collection(Inventory::where('name','like','%'.request('search').'%')->get());
+    }
 }

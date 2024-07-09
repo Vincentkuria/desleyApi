@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ShippingResource;
+use App\Models\Customer;
 use App\Models\Shipping;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
@@ -86,6 +87,13 @@ class ShippingController extends Controller
             }
            return ShippingResource::collection(Shipping::where($column,$columnQuery)->get()); 
         }
+    }
+
+    function searchWithName() {
+        $payments =Shipping::whereHas('customer', function ($query) {
+        $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%'.request('search').'%']);
+        })->get();
+        return ShippingResource::collection($payments);
     }
 
     public function driverItems(Request $request){

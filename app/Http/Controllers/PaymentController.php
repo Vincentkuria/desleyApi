@@ -94,6 +94,11 @@ class PaymentController extends Controller
         return PaymentResource::collection(Payment::where('status->finance','pending')->get()); 
     }
 
+    function searchWithCode() {
+        $payments=Payment::where('Payment_code','like','%'.request('search').'%')->get();
+        return PaymentResource::collection($payments);
+    }
+
     function searchWithName() {
         $payments =Payment::whereHas('customer', function ($query) {
         $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%'.request('search').'%']);
