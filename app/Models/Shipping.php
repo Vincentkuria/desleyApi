@@ -20,6 +20,7 @@ class Shipping extends Model
         'equipment_id',
         'spare_id',
         'shipped_by',
+        'count'
     ];
 
     public function customer(): BelongsTo

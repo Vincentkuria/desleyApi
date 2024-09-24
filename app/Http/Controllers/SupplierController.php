@@ -72,6 +72,11 @@ class SupplierController extends Controller
         return $this->success('','employee approved successfully');
     }
 
+    public function cancel(){
+        DB::table('suppliers')->where('id',request('id'))->update(['status->manager'=>'cancelled']);
+        return $this->success('','supplier cancelled successfully');
+    }
+
     function updateSupPassword(){
         $supplier =Supplier::find(request('id'));
         $supplier->update(['password'=>Hash::make(request('password'))]);

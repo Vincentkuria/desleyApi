@@ -29,9 +29,9 @@ class ServiceController extends Controller
         $service=Service::create([
             'name'=>$request->name,
             'price'=>$request->price,
-            'item_description'=>$request->service_description,
+            'service_description'=>$request->service_description,
             'img_url'=>url(str_replace("public","storage",$img_url)),
-            'inventory_id'=>$request->inventory_id,
+            // 'inventory_id'=>$request->inventory_id,
         ]);
         return new ServiceResource($service);
     }

@@ -59,9 +59,12 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/inventory-search',[InventoryController::class,'search']);
     Route::post('/status-request-delete',[InventoryController::class,'statusRequestDelete']);
     Route::get('/inventories-approved',[InventoryController::class,'indexApproved']);
+    Route::post('/approve-inventories',[InventoryController::class,'approve']);
+    Route::post('/cancel-inventories',[InventoryController::class,'cancel']);
     Route::resource('/suppliers',SupplierController::class);
     Route::get('/search-supplier',[SupplierController::class,'searchSupplier']);
     Route::post('/approve-suppliers',[SupplierController::class,'approveSupplier']);
+    Route::post('/cancel-suppliers',[SupplierController::class,'cancel']);
     Route::post('/update-sup-password',[SupplierController::class,'updateSupPassword']);
     Route::resource('/cartitems',CartitemController::class);
     Route::resource('/shippings',ShippingController::class);
@@ -72,5 +75,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::resource('/suptransactions',Supplier_transactionController::class);
     Route::post('/inventory-delivered',[Supplier_transactionController::class,'inventoryDelivered']);
     Route::get('/suptransactions-approved',[Supplier_transactionController::class,'indexApproved']);
+    Route::post('/approve-suptransactions',[Supplier_transactionController::class,'approve']);
+    Route::post('/cancel-suptransactions',[Supplier_transactionController::class,'cancel']);
     Route::resource('/custransactions',CustomerTransactionController::class);
 });

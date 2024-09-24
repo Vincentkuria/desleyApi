@@ -76,8 +76,19 @@ class Supplier_transactionController extends Controller
         $inventory=DB::table('inventories')->where('id',request('inventory_id'))->first();
         $currentCount=$inventory->no_of_items;
         $newCount=$currentCount + request('no_of_items');
-        DB::table('inventories')->where('id',request('inventory_id'))->update(['no_of_items'=>$newCount]);
+        $supplierId=DB::table('supplier_transactions')->where('id',request('inventory_id'))->first()->supplier_id;
+        DB::table('inventories')->where('id',request('inventory_id'))->update(['no_of_items'=>$newCount,'supplier_id'=>$supplierId]);
         DB::table('supplier_transactions')->where('id',request('suptransaction_id'))->update(['status->supply'=>'done']);
         return $this->success('','updated successfuly');
+    }
+
+    public function approve() {
+        SupplierTransaction::where('id',request('id'))->update(['status->manager'=>'approved']);
+        return $this->success('','transaction approved successfully');
+    }
+
+    public function cancel() {
+        SupplierTransaction::where('id',request('id'))->update(['status->manager'=>'cancelled']);
+        return $this->success('','transaction canceled successfully');
     }
 }

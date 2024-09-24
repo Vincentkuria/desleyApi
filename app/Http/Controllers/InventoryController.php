@@ -72,4 +72,14 @@ class InventoryController extends Controller
     function search() {
         return InventoryResource::collection(Inventory::where('name','like','%'.request('search').'%')->get());
     }
+
+    public function approve() {
+        Inventory::where('id',request('id'))->update(['status->manager'=>'approved']);
+        return $this->success('','inventory approved successfully');
+    }
+
+    public function cancel() {
+        Inventory::where('id',request('id'))->update(['status->manager'=>'cancelled']);
+        return $this->success('','inventory canceled successfully');
+    }
 }
