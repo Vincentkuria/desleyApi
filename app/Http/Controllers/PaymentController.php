@@ -123,4 +123,11 @@ class PaymentController extends Controller
         return $this->success('','payment approved');
     }
 
+    function supplierbillings() {
+        $user=request()->user();
+        return PaymentResource::collection(Payment::where('supplier_id',$user->id)->get());
+    }
+
+
+
 }

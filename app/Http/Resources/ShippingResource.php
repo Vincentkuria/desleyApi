@@ -24,12 +24,13 @@ class ShippingResource extends JsonResource
             'shipping_address'=>$this->shipping_address,
             'equipment'=>Equipment::find($this->equipment_id),
             'spare'=>Spare::find($this->spare_id),
-            'service'=>Service::find($this->spare_id),
+            'service'=>Service::find($this->service_id),
             'shipped_by'=>$this->shipped_by,
             'status'=>$this->status,
             'count'=>$this->count,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
+            'assigned'=>$this->assigned
         ];
     }
 }

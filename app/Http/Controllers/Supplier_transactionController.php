@@ -33,6 +33,7 @@ class Supplier_transactionController extends Controller
 
         $data=$request->all();
         $data['request_from']=$request->user()->id;
+        $data['price']=DB::table('inventories')->where('id',$request->inventory_id)->first()->price*-1;
         
 
         $transaction=SupplierTransaction::create($data);

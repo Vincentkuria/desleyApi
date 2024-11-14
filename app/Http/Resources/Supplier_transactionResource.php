@@ -23,6 +23,7 @@ class Supplier_transactionResource extends JsonResource
             'supplier'=>Supplier::find($this->supplier_id),
             'count'=>$this->count,
             'status'=>$this->status,
+            'price'=>$this->price,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
         ];

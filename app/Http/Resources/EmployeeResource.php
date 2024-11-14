@@ -22,6 +22,7 @@ class EmployeeResource extends JsonResource
             'role'=>$this->role,
             'Phone_no'=>$this->Phone_no,
             'status'=>$this->status,
+            'service_group'=>$this->service_group,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
         ];

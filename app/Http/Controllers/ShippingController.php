@@ -76,14 +76,18 @@ class ShippingController extends Controller
         
     }
 
+    public function serviceShipping(){
+        return ShippingResource::collection(Shipping::whereNotNull('service_id')->where('assigned',false)->get());
+    }
+
     public function searchShippings(){
         $column =request('column');
         $columnQuery=request('columnQuery');
 
         if ($column!=null){
             if ($columnQuery==null) {
-                Log::debug(Shipping::whereNull($column)->get());
-                return ShippingResource::collection(Shipping::whereNull($column)->get());
+                
+                return ShippingResource::collection(Shipping::whereNull($column)->whereNull('service_id')->get());
             }
            return ShippingResource::collection(Shipping::where($column,$columnQuery)->get()); 
         }

@@ -74,7 +74,7 @@ class InventoryController extends Controller
     }
 
     public function approve() {
-        Inventory::where('id',request('id'))->update(['status->manager'=>'approved']);
+        Inventory::where('id',request('id'))->update(['status->manager'=>'approved','price'=>request('price')]);
         return $this->success('','inventory approved successfully');
     }
 

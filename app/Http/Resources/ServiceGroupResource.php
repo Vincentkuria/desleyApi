@@ -2,11 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Supplier;
+use App\Models\Employee;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InventoryResource extends JsonResource
+class ServiceGroupResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +19,8 @@ class InventoryResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'no_of_items'=>$this->no_of_items,
-            'supplier'=>Supplier::find($this->supplier_id),
-            'status'=>$this->status,
-            'price'=>$this->price,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
+            'supervisor'=>Employee::find($this->supervisor),
+            'job'=>$this->job!==null ? Shipping::find($this->job) : null,
         ];
     }
 }

@@ -20,5 +20,6 @@ class SupplierTransaction extends Model
         'count',
         'total_amount',
         'payment_id',
+        'price',
     ];
 }

@@ -7,9 +7,11 @@ use App\Http\Controllers\CustomerTransactionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceGroupController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SpareController;
 use App\Http\Controllers\Supplier_transactionController;
@@ -71,11 +73,23 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/shipping-searchwithname',[ShippingController::class,'searchWithName']);
     Route::get('/driver-items',[ShippingController::class,'driverItems']);
     Route::get('/search-shippings',[ShippingController::class,'searchShippings']);
+    Route::get('/serviceShipping',[ShippingController::class,'serviceShipping']);
     Route::post('/update-shipping-status',[ShippingController::class,'updateStatus']);
     Route::resource('/suptransactions',Supplier_transactionController::class);
     Route::post('/inventory-delivered',[Supplier_transactionController::class,'inventoryDelivered']);
     Route::get('/suptransactions-approved',[Supplier_transactionController::class,'indexApproved']);
+    Route::get('/supplierbillings',[PaymentController::class,'supplierbillings']);
     Route::post('/approve-suptransactions',[Supplier_transactionController::class,'approve']);
     Route::post('/cancel-suptransactions',[Supplier_transactionController::class,'cancel']);
     Route::resource('/custransactions',CustomerTransactionController::class);
+
+    Route::get('/idle-service-group',[ServiceGroupController::class,'idleServiceGroups']);
+    Route::patch('/assign-jobto-group',[ServiceGroupController::class,'assignJobtoGroup']);
+    Route::get('/service-worker-data',[ServiceGroupController::class,'serviceWorkerData']);
+    Route::post('/job-done',[ServiceGroupController::class,'jobDone']);
+
+    Route::post('/receive-feedback',[FeedbackController::class,'receiveFeedback']);
+    Route::get('/myfeedback',[FeedbackController::class,'myFeedback']);
+    Route::get('/myefeedback',[FeedbackController::class,'myeFeedback']);
+    Route::post('/replyfeedback',[FeedbackController::class,'replyFeedback']);
 });
