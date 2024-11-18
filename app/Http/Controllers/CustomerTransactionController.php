@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerTransactionReportResource;
 use App\Http\Resources\CustomerTransactionResource;
 use App\Models\CustomerTransaction;
 use App\Traits\HttpResponses;
@@ -61,5 +62,13 @@ class CustomerTransactionController extends Controller
         $transaction=CustomerTransaction::find($id);
         $transaction->delete();
         return $this->success('','transaction deleted successfully');
+    }
+
+    function allOrderReports() {
+        return CustomerTransactionReportResource::collection(CustomerTransaction::whereNull('service_id')->get());
+    }
+
+    function allServiceReports() {
+        return CustomerTransactionReportResource::collection(CustomerTransaction::whereNotNull('service_id')->get());
     }
 }

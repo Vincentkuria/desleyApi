@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Supplier_transactionResource;
+use App\Http\Resources\SupplierTansactionReportResource;
 use App\Models\SupplierTransaction;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
@@ -91,5 +92,9 @@ class Supplier_transactionController extends Controller
     public function cancel() {
         SupplierTransaction::where('id',request('id'))->update(['status->manager'=>'cancelled']);
         return $this->success('','transaction canceled successfully');
+    }
+
+    function allSupplierResource() {
+        return SupplierTansactionReportResource::collection(SupplierTransaction::all());
     }
 }

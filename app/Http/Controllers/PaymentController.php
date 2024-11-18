@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentReportResource;
 use App\Http\Resources\PaymentResource;
 use App\Models\Customer;
 use App\Models\CustomerTransaction;
@@ -130,4 +131,7 @@ class PaymentController extends Controller
 
 
 
+    function allFinanceReports() {
+        return PaymentReportResource::collection(Payment::all());
+    }
 }

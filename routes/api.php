@@ -82,6 +82,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::post('/approve-suptransactions',[Supplier_transactionController::class,'approve']);
     Route::post('/cancel-suptransactions',[Supplier_transactionController::class,'cancel']);
     Route::resource('/custransactions',CustomerTransactionController::class);
+    
 
     Route::get('/idle-service-group',[ServiceGroupController::class,'idleServiceGroups']);
     Route::patch('/assign-jobto-group',[ServiceGroupController::class,'assignJobtoGroup']);
@@ -92,4 +93,9 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/myfeedback',[FeedbackController::class,'myFeedback']);
     Route::get('/myefeedback',[FeedbackController::class,'myeFeedback']);
     Route::post('/replyfeedback',[FeedbackController::class,'replyFeedback']);
+
+    Route::get('/all-order-reports',[CustomerTransactionController::class,'allOrderReports']);
+    Route::get('/all-service-reports',[CustomerTransactionController::class,'allServiceReports']);
+    Route::get('/all-finance-reports',[PaymentController::class,'allFinanceReports']);
+    Route::get('/all-supplier-resource',[Supplier_transactionController::class,'allSupplierResource']);
 });
