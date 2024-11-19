@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\ServiceGroupResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\Employee;
@@ -66,5 +67,25 @@ class ServiceGroupController extends Controller
         // Shipping::where('id',request('shipping'))->delete();
         return $this->success('','job done successfully');
            
+    }
+
+    function ungroupedServiceTechnicians() {
+        return EmployeeResource::collection(Employee::where('role','service')->whereNull('service_group')->get());
+    }
+
+    function assignGroup() {
+        $membersListId=request('membersList');
+        $servicegroup=ServiceGroup::create([
+            'name'=>request('name'),
+            'supervisor'=>$membersListId[0],
+        ]);
+
+        foreach ($membersListId as $id) {
+            Employee::find($id)->update([
+                'service_group'=>$servicegroup->id
+            ]);
+        }
+
+        return $this->success('','group assigned successfully');
     }
 }

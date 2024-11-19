@@ -98,4 +98,7 @@ Route::group(['middleware'=>['auth:sanctum']],function () {
     Route::get('/all-service-reports',[CustomerTransactionController::class,'allServiceReports']);
     Route::get('/all-finance-reports',[PaymentController::class,'allFinanceReports']);
     Route::get('/all-supplier-resource',[Supplier_transactionController::class,'allSupplierResource']);
+
+    Route::get('/ungrouped-service-technicians',[ServiceGroupController::class,'ungroupedServiceTechnicians']);
+    Route::post('/assign-group',[ServiceGroupController::class,'assignGroup']);
 });
