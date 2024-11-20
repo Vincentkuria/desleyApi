@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ShippingResource;
 use App\Models\Customer;
+use App\Models\Equipment;
+use App\Models\Inventory;
 use App\Models\Shipping;
+use App\Models\Spare;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -66,12 +69,22 @@ class ShippingController extends Controller
     }
 
     public function updateStatus(Request $request){
+
+        $shippingId=request('id');
+        $shipping=Shipping::find($shippingId);
+        $equipmentId=$shipping->equipment_id;
+        $spareId=$shipping->spare_id;
+        $inventoryId=$equipmentId!=null ? Equipment::find($equipmentId)->inventory_id : Spare::find($spareId)->inventory_id;
+        $oldNumber=Inventory::find($inventoryId)->no_of_items;
+        $removingNumber=$shipping->count;
+        $newNumber=$oldNumber-$removingNumber;
         Log::debug(request('status'));
         if (request('status')=='in transit') {
             DB::table('shippings')->where('id',request('id'))->update(['status->shipping_status'=>'in transit']);
         }
         if (request('status')=='delivered') {
             DB::table('shippings')->where('id',request('id'))->update(['status->shipping_status'=>'delivered']);
+            DB::table('inventories')->where('id',$inventoryId)->update(['no_of_items'=>$newNumber]);
         }
         
     }
