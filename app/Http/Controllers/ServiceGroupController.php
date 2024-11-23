@@ -48,7 +48,8 @@ class ServiceGroupController extends Controller
                 return [
                     'address'=>$shipping->shipping_address,
                     'job'=>Service::find($shipping->service_id)->name,
-                    'supervisor'=>$servicegroup->supervisor==$request->user()->id? true:false,
+                    'issupervisor'=>$servicegroup->supervisor==$request->user()->id? true:false,
+                    'supervisor'=>Employee::find($servicegroup->supervisor),
                     'count'=>$shipping->count,
                     'shipping'=>$shipping->id,
                     'serviceGroup'=>$servicegroup->id
